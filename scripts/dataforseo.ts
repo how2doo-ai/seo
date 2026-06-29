@@ -17,13 +17,19 @@ const CACHE_DIR = resolve(CONFIG_DIR ?? __dirname, ".cache");
 const LOGIN = env.DATAFORSEO_LOGIN || env.DATAFORSEO_USERNAME;
 const PASSWORD = env.DATAFORSEO_PASSWORD;
 
-if (!LOGIN || !PASSWORD) {
-  console.error("Error: DATAFORSEO_LOGIN (or DATAFORSEO_USERNAME) and DATAFORSEO_PASSWORD required in .env");
-  process.exit(1);
-}
-
 const BASE_URL = "https://api.dataforseo.com/v3";
-const AUTH = `Basic ${Buffer.from(`${LOGIN}:${PASSWORD}`).toString("base64")}`;
+
+// Credentials are checked lazily, at first request — not at import. That lets
+// GA4/GSC-only tooling (e.g. ping.ts) import this module without DataForSEO
+// creds; only scripts that actually call DataForSEO require them.
+function authHeader(): string {
+  if (!LOGIN || !PASSWORD) {
+    throw new Error(
+      "DATAFORSEO_LOGIN (or DATAFORSEO_USERNAME) and DATAFORSEO_PASSWORD required in .env",
+    );
+  }
+  return `Basic ${Buffer.from(`${LOGIN}:${PASSWORD}`).toString("base64")}`;
+}
 
 // ---------------------------------------------------------------------- cache
 //
@@ -154,7 +160,7 @@ export async function dataforseoPost<T = unknown>(
     {
       method: "POST",
       headers: {
-        Authorization: AUTH,
+        Authorization: authHeader(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
@@ -190,7 +196,7 @@ export async function dataforseoGet<T = unknown>(
     `${BASE_URL}${endpoint}`,
     {
       method: "GET",
-      headers: { Authorization: AUTH },
+      headers: { Authorization: authHeader() },
     },
     endpoint,
   );
