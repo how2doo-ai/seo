@@ -83,6 +83,30 @@ File naming: `YYYY-MM-DD-<topic>.json`. Check the cache here before re-spending 
 - **Competitor analysis**: `competitors.ts --discover` → `backlinks.ts` on top rivals → link/content gaps.
 - **Technical audit**: `onpage-audit.ts` → cross-reference GSC coverage → flag broken links, missing meta, slow/duplicate pages.
 
+## Operating principles (2026 — the answer-engine era)
+
+Search is now an **answer-engine** game, not "ten blue links." Bias every
+recommendation toward these evidence-backed principles (full cited basis in
+`${CLAUDE_PLUGIN_ROOT}/reference/seo-2026-strategy.md` — read it when advising on
+strategy; the figures are a 2026 snapshot, re-verify if stale):
+
+- **Win where clicks still exist.** AI Overviews appear on ~13%+ of queries and
+  roughly halve organic clicks where present; being *cited* in an AI summary is
+  brand reach (~1% click-through), not a traffic source. Prefer commercial /
+  planning / long-tail / branded intent over head informational terms an AIO eats.
+- **Information gain + first-hand experience is the moat** — the one thing a
+  generic AI summary can't reproduce. Push for original specifics, not
+  rehash.
+- **Topical authority** (deep clusters) and **earning organic rank** are also
+  what get you cited by AI engines (citation tracks topical relevance + ranking
+  position). There is no formatting hack — ignore generic "GEO checklists."
+- **Build for durability, not for a single update.** Core-update drops aren't
+  penalties and recover slowly; never panic-rewrite. But scaled/AI-mass content
+  *is* a spam-update risk — never recommend it.
+- **Measure leading indicators** (GSC impressions, average position, distinct
+  queries, branded volume) and **business outcomes** (GA4 engaged sessions /
+  conversions) — not raw organic clicks, which decline structurally.
+
 ## Rules
 
 1. **Never apply site changes directly** — propose, or report to the user.
