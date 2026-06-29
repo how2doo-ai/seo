@@ -26,10 +26,6 @@ if (!SERVICE_ACCOUNT_KEY) {
   console.error("Error: GSC_SERVICE_ACCOUNT_KEY or GSC_SERVICE_ACCOUNT_KEY_FILE required in .env");
   process.exit(1);
 }
-if (!PROPERTY_ID) {
-  console.error("Error: GA4_PROPERTY_ID required in .env (e.g. properties/123456789)");
-  process.exit(1);
-}
 
 // Parse CLI args
 const args = process.argv.slice(2);
@@ -45,6 +41,13 @@ for (let i = 1; i < args.length; i++) {
   else if (args[i] === "--limit" && args[i + 1]) limit = Number.parseInt(args[++i], 10);
   else if (args[i] === "--event" && args[i + 1]) eventName = args[++i];
   else if (args[i] === "--by" && args[i + 1]) geoBy = args[++i];
+}
+
+// Every command except `properties` (which discovers ids) needs a property id.
+if (command !== "properties" && !PROPERTY_ID) {
+  console.error("Error: GA4_PROPERTY_ID required in .env (e.g. properties/123456789)");
+  console.error("Tip: run `ga4.ts properties` to list the property ids this account can access.");
+  process.exit(1);
 }
 
 // GA4 channel grouping value for organic search traffic.
@@ -63,6 +66,37 @@ const auth = new google.auth.GoogleAuth({
 });
 
 const analyticsData = google.analyticsdata({ version: "v1beta", auth });
+
+if (command === "properties") {
+  // Discover every GA4 property this service account can access, with its
+  // numeric id and display name — the value to put in GA4_PROPERTY_ID. Uses the
+  // Admin API (accountSummaries) rather than the Data API.
+  const admin = google.analyticsadmin({ version: "v1beta", auth });
+  try {
+    const res = await admin.accountSummaries.list({ pageSize: 200 });
+    const out = (res.data.accountSummaries ?? []).flatMap((acc) =>
+      (acc.propertySummaries ?? []).map((p) => ({
+        account: acc.displayName,
+        property: p.property, // e.g. "properties/123456789"
+        property_id: `properties/${(p.property ?? "").split("/").pop()}`,
+        display_name: p.displayName,
+      })),
+    );
+    console.log(JSON.stringify({ accessible_properties: out }, null, 2));
+    process.exit(0);
+  } catch (e) {
+    const msg = String((e as { message?: string })?.message ?? e);
+    if (/SERVICE_DISABLED|has not been used in project|accessNotConfigured/.test(msg)) {
+      console.error("The Google Analytics Admin API is not enabled in this service account's GCP project.");
+      console.error("Enable it once (it's free), then retry:");
+      console.error("  https://console.developers.google.com/apis/api/analyticsadmin.googleapis.com/overview");
+      console.error("Or just copy the numeric Property ID from GA4 Admin → Property Settings into GA4_PROPERTY_ID.");
+    } else {
+      console.error(`Failed to list GA4 properties: ${msg.slice(0, 300)}`);
+    }
+    process.exit(1);
+  }
+}
 
 // --prev shifts the window back one full period, for period-over-period diffs.
 const prevPeriod = args.includes("--prev");
