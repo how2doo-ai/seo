@@ -1,6 +1,6 @@
 {
   "name": "seo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Autonomous SEO agent — Google Analytics 4 + Search Console analytics, plus DataForSEO keyword/SERP/competitor research and seasonal opportunity scoring. Niche-agnostic; configured per project.",
   "author": {
     "name": "alohamonius"

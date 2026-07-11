@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SubagentStop": [
+      {
+        "matcher": "seo",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v osascript >/dev/null 2>&1; then osascript -e 'display notification \"SEO agent run finished\" with title \"how2doo seo\"'; elif command -v notify-send >/dev/null 2>&1; then notify-send 'how2doo seo' 'SEO agent run finished'; else printf '\\a'; fi 2>/dev/null || true",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
