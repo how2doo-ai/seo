@@ -15,18 +15,18 @@ config (site, GA4 property, credentials, and which competitor domains count as
 
 ## Install
 
-As a Claude Code plugin (this repo doubles as a single-plugin marketplace):
+As a Claude Code plugin, from the how2doo marketplace:
 
 ```
-/plugin marketplace add alohamonius/seo-agent
-/plugin install seo-agent
+/plugin marketplace add how2doo-ai/agents
+/plugin install seo
 ```
 
 Or clone and run the scripts directly:
 
 ```bash
-git clone https://github.com/alohamonius/seo-agent
-npm install --prefix seo-agent/scripts
+git clone https://github.com/how2doo-ai/seo
+npm install --prefix seo/scripts
 ```
 
 ## Configure

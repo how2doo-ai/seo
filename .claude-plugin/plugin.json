@@ -1,14 +1,22 @@
 {
-  "name": "seo-agent",
+  "name": "seo",
   "version": "0.1.0",
   "description": "Autonomous SEO agent — Google Analytics 4 + Search Console analytics, plus DataForSEO keyword/SERP/competitor research and seasonal opportunity scoring. Niche-agnostic; configured per project.",
   "author": {
     "name": "alohamonius"
   },
-  "homepage": "https://github.com/alohamonius/seo-agent",
-  "repository": "https://github.com/alohamonius/seo-agent",
+  "homepage": "https://github.com/how2doo-ai/seo",
+  "repository": "https://github.com/how2doo-ai/seo",
   "license": "MIT",
-  "keywords": ["seo", "analytics", "ga4", "search-console", "gsc", "dataforseo", "keyword-research"],
+  "keywords": [
+    "seo",
+    "analytics",
+    "ga4",
+    "search-console",
+    "gsc",
+    "dataforseo",
+    "keyword-research"
+  ],
   "agents": "./agents/",
   "commands": "./commands/"
 }
