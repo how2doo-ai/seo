@@ -24,8 +24,8 @@ const results: PingResult[] = [];
 async function pingDataForSEO(): Promise<PingResult> {
   const start = Date.now();
   try {
-    const res = await dataforseoGet("/appendix/user_data");
-    const money = (res as Record<string, unknown>).money as Record<string, number> | undefined;
+    const res = await dataforseoGet<{ money?: { balance?: number } }>("/appendix/user_data");
+    const money = res.tasks?.[0]?.result?.[0]?.money;
     return {
       service: "DataForSEO",
       status: "ok",
