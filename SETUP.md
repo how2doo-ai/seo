@@ -119,6 +119,34 @@ the property string.
 
 ---
 
+## DataForSEO (optional — research scripts)
+
+GA4/GSC cover *your* site's data. The research scripts (`keyword-research.ts`,
+`serp-analyze.ts`, `competitors.ts`, `trends.ts`, `backlinks.ts`, `score.ts`)
+query the wider market through **DataForSEO**, which needs its own credentials:
+
+1. Register at https://app.dataforseo.com — new accounts come with a small
+   trial credit, enough to try every script before paying.
+2. Open **API Access**: https://app.dataforseo.com/api-access
+3. Copy the two values into `.env`:
+   - `DATAFORSEO_LOGIN` — your account email
+   - `DATAFORSEO_PASSWORD` — the **generated API password shown on that page**.
+     This is *not* the password you log in to the dashboard with — using that
+     one is the most common cause of `401` from these scripts.
+
+Cost model: pay-per-request (fractions of a cent for keyword data, more for
+live SERPs). Two built-in guards keep spend low:
+
+- **Response cache** — identical requests within `SEO_CACHE_TTL` (default 7
+  days) are served from disk, free. Leave it on.
+- Top up manually (no auto-billing by default), so a runaway loop can't spend
+  more than your balance.
+
+Re-run `ping.ts` after adding the creds — it should now print `OK` for
+DataForSEO too.
+
+---
+
 ## Reusing across projects
 
 The service account is global. For each new project: grant its email access to
