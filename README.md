@@ -34,11 +34,19 @@ npm install --prefix seo/scripts
 Each project gets its own `.claude/seo/.env` plus a service-account key. The
 service account is the one thing that needs creating once — see **[SETUP.md](SETUP.md)**
 for the full walkthrough (create the account, enable the APIs, grant it access
-to your GA4 property and GSC site, find the property id). Then:
+to your GA4 property and GSC site, find the property id). Scaffold and fill the
+config with the init script (idempotent; anchors at the git root; exit 0 = complete):
 
 ```bash
+sh scripts/init.sh \
+  GSC_SITE_URL=sc-domain:example.com \
+  GA4_PROPERTY_ID=properties/123456789 \
+  --key=/path/to/service-account-key.json
 npx tsx scripts/ping.ts    # verify all configured integrations
 ```
+
+Prefer one file? The loader also honors SEO vars in your project's root `.env`
+(lowest priority — a dedicated `.claude/seo/.env` wins).
 
 In Claude Code, run `/seo-setup` to be walked through it, and `/seo-analytics`
 for a quick traffic + search snapshot. Or just ask the **seo** agent for keyword

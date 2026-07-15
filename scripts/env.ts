@@ -11,6 +11,10 @@
  *   2. <cwd>/.claude/seo/.env          — the conventional per-project location
  *   3. <cwd>/seo-agent.env             — flat alternative at the project root
  *   4. <script>/../.env                — co-located fallback (in-repo / dev use)
+ *   5. <cwd>/.env                      — the project's own root .env: only used
+ *      as the config file when it actually defines GSC_* vars, and otherwise
+ *      merged underneath the chosen file as a lowest-priority overlay, so a
+ *      project can keep its SEO vars in the .env it already has.
  *
  * A service-account JSON key referenced by GSC_SERVICE_ACCOUNT_KEY_FILE is
  * resolved relative to the chosen env file's directory, so the key sits next
@@ -34,8 +38,20 @@ function candidatePaths(): string[] {
 
 const candidates = candidatePaths();
 
+/** The project's own root .env — lowest-priority source (see header). */
+const ROOT_ENV = resolve(process.cwd(), ".env");
+const rootEnvVars: Record<string, string> = existsSync(ROOT_ENV)
+  ? parseEnvFile(ROOT_ENV)
+  : {};
+const rootEnvHasConfig = Boolean(
+  rootEnvVars.GSC_SITE_URL ||
+    rootEnvVars.GSC_SERVICE_ACCOUNT_KEY ||
+    rootEnvVars.GSC_SERVICE_ACCOUNT_KEY_FILE,
+);
+
 /** The env file actually used (the first that exists), or null if none found. */
-export const ENV_PATH: string | null = candidates.find(existsSync) ?? null;
+export const ENV_PATH: string | null =
+  candidates.find(existsSync) ?? (rootEnvHasConfig ? ROOT_ENV : null);
 
 /** Directory holding the chosen env file — the project's SEO config dir. */
 export const CONFIG_DIR: string | null = ENV_PATH ? dirname(ENV_PATH) : null;
@@ -65,14 +81,18 @@ function loadEnv(): Record<string, string> {
   if (!ENV_PATH) {
     console.error("Error: no SEO-agent config found. Looked for:");
     for (const p of candidates) console.error(`  - ${p}`);
+    console.error(`  - ${ROOT_ENV} (with GSC_* vars in it)`);
     console.error(
-      "\nCreate .claude/seo/.env in your project (copy the tool's .env.example),",
+      "\nRun the plugin's scripts/init.sh to scaffold .claude/seo/.env,",
     );
-    console.error("or point SEO_AGENT_ENV at an env file. See SETUP.md.");
+    console.error(
+      "put GSC_* vars in your project's root .env, or point SEO_AGENT_ENV at a file. See SETUP.md.",
+    );
     process.exit(1);
   }
-  // Real process env overrides file values, so secrets can come from CI / shell.
-  return { ...parseEnvFile(ENV_PATH), ...stringEnv(process.env) };
+  // Priority: process env (CI/shell secrets) > chosen env file > root .env overlay.
+  const overlay = ENV_PATH === ROOT_ENV ? {} : rootEnvVars;
+  return { ...overlay, ...parseEnvFile(ENV_PATH), ...stringEnv(process.env) };
 }
 
 /** Narrow process.env (string | undefined) to a plain string record. */
