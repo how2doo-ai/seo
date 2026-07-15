@@ -16,7 +16,5 @@
     "gsc",
     "dataforseo",
     "keyword-research"
-  ],
-  "agents": "./agents/",
-  "commands": "./commands/"
+  ]
 }
