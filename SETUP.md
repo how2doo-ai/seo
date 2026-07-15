@@ -153,3 +153,23 @@ The service account is global. For each new project: grant its email access to
 that project's GSC + GA4 (step 2), then create that project's `.claude/seo/.env`
 pointing at the same key JSON (or paste the key inline). No new service account
 needed.
+
+With 2+ projects, prefer **one canonical key outside any repo** over per-repo
+copies — fewer secret copies on disk, one file to rotate:
+
+```bash
+mkdir -p ~/.config/seo-agent
+cp <key>.json ~/.config/seo-agent/service-account.json
+chmod 600 ~/.config/seo-agent/service-account.json
+```
+
+then in each project (absolute paths are used as-is, not copied):
+
+```bash
+sh <plugin>/scripts/init.sh \
+  GSC_SERVICE_ACCOUNT_KEY_FILE=$HOME/.config/seo-agent/service-account.json ...
+```
+
+Teams: don't share one key file between people. A service account can hold
+multiple keys — each person creates their own (step 1's `keys create`), so one
+person's key can be revoked without rotating everyone.
