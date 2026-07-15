@@ -17,8 +17,8 @@
  * `fetchSeasonality()` is exported for the scorer.
  */
 
-import { dataforseoPost, tasks, parseArgs, printJson, printError } from "./dataforseo.js";
-import { config } from "./seo-config.js";
+import { dataforseoPost, tasks, parseArgs, printJson, printError } from "../lib/dataforseo.js";
+import { config } from "../lib/seo-config.js";
 
 interface MonthlySearch {
   year: number;

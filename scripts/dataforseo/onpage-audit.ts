@@ -10,7 +10,7 @@
  * The script polls until results are ready (max 5 minutes).
  */
 
-import { dataforseoPost, dataforseoGet, parseArgs, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, dataforseoGet, parseArgs, printJson, printError } from "../lib/dataforseo.js";
 
 interface TaskPostResult {
   id: string;

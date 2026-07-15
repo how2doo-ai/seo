@@ -15,7 +15,7 @@
  * intent in one batched call) used by the scorer.
  */
 
-import { dataforseoPost, tasks, parseArgs, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, tasks, parseArgs, printJson, printError } from "../lib/dataforseo.js";
 
 interface KeywordInfo {
   search_volume: number | null;

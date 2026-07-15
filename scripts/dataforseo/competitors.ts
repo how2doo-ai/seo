@@ -7,7 +7,7 @@
  *   npx tsx scripts/competitors.ts "starogram.com" "costar.com" --location 2840 --lang en
  */
 
-import { dataforseoPost, firstTask, totalCost, parseArgs, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, firstTask, totalCost, parseArgs, printJson, printError } from "../lib/dataforseo.js";
 
 interface CompetitorKeyword {
   keyword: string;

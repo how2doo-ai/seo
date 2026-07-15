@@ -29,16 +29,16 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, dirname, extname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { parseArgs, printError } from "./dataforseo.js";
-import { config, isStrongDomain } from "./seo-config.js";
+import { resolve } from "node:path";
+import { parseArgs, printError } from "../lib/dataforseo.js";
+import { config, isStrongDomain } from "../lib/seo-config.js";
 import { fetchSeasonality, type Seasonality } from "./historical-volume.js";
 import { fetchKeywordOverview } from "./keyword-research.js";
 import { fetchSerpSignals, type SerpSignals } from "./serp-analyze.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = resolve(__dirname, "../../../..");
+// Output lands in the project being worked on — cwd, same anchor env.ts uses
+// for config. (Climbing from __dirname breaks under real plugin installs.)
+const PROJECT_ROOT = process.cwd();
 
 interface Candidate {
   query: string;

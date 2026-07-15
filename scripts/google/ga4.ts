@@ -17,7 +17,7 @@
  * Requires: googleapis package (npm install in this tool's scripts/ dir).
  */
 
-import { env, serviceAccountKey } from "./env.js";
+import { env, serviceAccountKey } from "../lib/env.js";
 
 const SERVICE_ACCOUNT_KEY = serviceAccountKey();
 const PROPERTY_ID = env.GA4_PROPERTY_ID;

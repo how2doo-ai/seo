@@ -15,7 +15,7 @@
  *   --category <id>  Category ID, 0 = all (default: 0)
  */
 
-import { dataforseoPost, firstTask, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, firstTask, printJson, printError } from "../lib/dataforseo.js";
 
 interface TrendDataPoint {
   date_from: string;

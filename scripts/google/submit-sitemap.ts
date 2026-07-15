@@ -10,7 +10,7 @@
  * derived from GSC_SITE_URL (handles both https:// and sc-domain: forms).
  */
 
-import { env, serviceAccountKey as getServiceAccountKey } from "./env.js";
+import { env, serviceAccountKey as getServiceAccountKey } from "../lib/env.js";
 
 const serviceAccountKey = getServiceAccountKey();
 const siteUrl = env.GSC_SITE_URL;

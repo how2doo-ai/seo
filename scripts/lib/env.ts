@@ -37,7 +37,7 @@ function candidatePaths(): string[] {
   if (process.env.SEO_AGENT_ENV) paths.push(resolve(process.env.SEO_AGENT_ENV));
   paths.push(resolve(process.cwd(), ".claude/seo/.env"));
   paths.push(resolve(process.cwd(), "seo-agent.env"));
-  paths.push(resolve(here, "../.env"));
+  paths.push(resolve(here, "../../.env"));
   return paths;
 }
 

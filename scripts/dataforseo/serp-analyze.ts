@@ -18,7 +18,7 @@
  * `analyzeSerp()` is exported so the scorer (score.ts) reuses the exact logic.
  */
 
-import { dataforseoPost, tasks, parseArgs, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, tasks, parseArgs, printJson, printError } from "../lib/dataforseo.js";
 
 // The /advanced endpoint returns heterogeneous blocks; type loosely and read
 // defensively. Only the fields we actually touch are named.

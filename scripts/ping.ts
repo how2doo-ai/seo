@@ -6,8 +6,8 @@
  *   npx tsx scripts/ping.ts
  */
 
-import { dataforseoGet } from "./dataforseo.js";
-import { env, serviceAccountKey as getServiceAccountKey } from "./env.js";
+import { dataforseoGet } from "./lib/dataforseo.js";
+import { env, serviceAccountKey as getServiceAccountKey } from "./lib/env.js";
 
 const serviceAccountKey = getServiceAccountKey();
 

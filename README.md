@@ -63,12 +63,19 @@ opportunities, a competitor audit, or a performance review.
 ## Layout
 
 ```
-.claude-plugin/   plugin.json + marketplace.json
-agents/seo.md     the subagent
-commands/         /seo-setup, /seo-analytics
-scripts/          ga4, gsc, dataforseo client, keyword/serp/score/…, ping
-.env.example      copy to <project>/.claude/seo/.env
-SETUP.md          service-account + per-project setup
+.claude-plugin/       plugin.json + marketplace.json
+agents/seo.md         the subagent
+commands/             /seo-setup, /seo-analytics, /seo-keywords,
+                      /seo-competitors, /seo-opportunities
+scripts/
+  init.sh, ping.ts    per-project scaffold (init → verify contract)
+  lib/                env loader, DataForSEO client, scoring config
+  google/             ga4, gsc, submit-sitemap (service account)
+  dataforseo/         keyword-research, serp-analyze, competitors,
+                      backlinks, historical-volume, onpage-audit,
+                      trends, score (opportunity scorer)
+.env.example          copy to <project>/.claude/seo/.env
+SETUP.md              service-account + per-project setup
 ```
 
 ## License

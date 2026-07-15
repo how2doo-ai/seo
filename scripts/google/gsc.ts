@@ -10,7 +10,7 @@
  * Requires: googleapis package (npm install in this tool's scripts/ dir).
  */
 
-import { env, serviceAccountKey } from "./env.js";
+import { env, serviceAccountKey } from "../lib/env.js";
 
 const SERVICE_ACCOUNT_KEY = serviceAccountKey();
 const SITE_URL = env.GSC_SITE_URL;

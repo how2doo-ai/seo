@@ -7,7 +7,7 @@
  *   npx tsx scripts/backlinks.ts "starogram.com" --limit 50
  */
 
-import { dataforseoPost, firstTask, parseArgs, printJson, printError } from "./dataforseo.js";
+import { dataforseoPost, firstTask, parseArgs, printJson, printError } from "../lib/dataforseo.js";
 
 interface BacklinksSummary {
   target: string;
