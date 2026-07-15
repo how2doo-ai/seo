@@ -4,9 +4,11 @@ description: Set up seo-agent for this project — interview for config, create 
 
 Walk the user through configuring the seo-agent for the **current project**. Be concrete and do the file/CLI work for them where you can; only the Google Cloud Console clicks and the GA4/GSC access grants must be done by the user. Read `${CLAUDE_PLUGIN_ROOT}/SETUP.md` for the full walkthrough before starting.
 
+**Config location is the repo root**: `$(git rev-parse --show-toplevel)/.claude/seo/.env`. The scripts resolve `.claude/seo/.env` against the cwd they run from, which is the session's repo root — in a monorepo, never place it under an app/package subdirectory. Use absolute paths for every file you create in this flow.
+
 ## 1. Detect current state
 
-- Read `.claude/seo/.env` in the project if it exists, and `${CLAUDE_PLUGIN_ROOT}/.env.example` for the full variable list.
+- Read `<repo-root>/.claude/seo/.env` if it exists, and `${CLAUDE_PLUGIN_ROOT}/.env.example` for the full variable list. Also scan for stray copies (`git ls-files --others --ignored --exclude-standard '*/.claude/seo/*'` or a quick find) — if config exists somewhere other than the root, move it up and delete the stray (it may hold a key).
 - Look for a reusable service-account key: check sibling projects the user mentions, or an existing `service-account.json` under `.claude/seo/` anywhere they point you.
 - Tell the user in one line what is already configured and what is missing, then only ask about the gaps.
 
