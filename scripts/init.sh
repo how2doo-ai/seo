@@ -81,30 +81,38 @@ echo
 echo "status ($root):"
 missing=0
 
-if [ -f "$dir/service-account.json" ] || [ -n "$(val GSC_SERVICE_ACCOUNT_KEY)" ]; then
-  echo "  [ok]      service-account key"
+# The key can be the conventional local file, an inline JSON value, or a
+# GSC_SERVICE_ACCOUNT_KEY_FILE path (absolute, or relative to .claude/seo/).
+kf="$(val GSC_SERVICE_ACCOUNT_KEY_FILE)"
+case "$kf" in
+  /*) keypath="$kf" ;;
+  "") keypath="$dir/service-account.json" ;;
+  *)  keypath="$dir/$kf" ;;
+esac
+if [ -f "$keypath" ] || [ -n "$(val GSC_SERVICE_ACCOUNT_KEY)" ]; then
+  echo "  [ok]      service-account key ($keypath)"
 else
-  echo "  [MISSING] service-account key — rerun with --key=/path/to/key.json (see SETUP.md to create one)"
+  echo "  [MISSING] service-account key — expected at $keypath; rerun with --key=/path/to/key.json or GSC_SERVICE_ACCOUNT_KEY_FILE=/abs/path (see SETUP.md)"
   missing=1
 fi
 
 site="$(val GSC_SITE_URL)"
 case "$site" in
-  ""|*example.com*) echo "  [MISSING] GSC_SITE_URL — sc-domain:<domain> or https://<site>/ exactly as in Search Console"; missing=1 ;;
+  ""|*example.com*|*REPLACE*) echo "  [MISSING] GSC_SITE_URL — sc-domain:<domain> or https://<site>/ exactly as in Search Console"; missing=1 ;;
   *) echo "  [ok]      GSC_SITE_URL=$site" ;;
 esac
 
 ga4="$(val GA4_PROPERTY_ID)"
 case "$ga4" in
-  ""|*123456789*) echo "  [MISSING] GA4_PROPERTY_ID — properties/<number> from GA4 Admin -> Property Settings"; missing=1 ;;
+  ""|*123456789*|*REPLACE*) echo "  [MISSING] GA4_PROPERTY_ID — properties/<number> from GA4 Admin -> Property Settings"; missing=1 ;;
   *) echo "  [ok]      GA4_PROPERTY_ID=$ga4" ;;
 esac
 
-if [ -n "$(val DATAFORSEO_LOGIN)" ]; then
-  echo "  [ok]      DataForSEO"
-else
-  echo "  [--]      DataForSEO not set (optional — keyword/SERP research stays off)"
-fi
+d4s="$(val DATAFORSEO_LOGIN)"
+case "$d4s" in
+  ""|*REPLACE*) echo "  [--]      DataForSEO not set (optional — keyword/SERP research stays off)" ;;
+  *) echo "  [ok]      DataForSEO ($d4s)" ;;
+esac
 
 echo
 if [ "$missing" -eq 0 ]; then
