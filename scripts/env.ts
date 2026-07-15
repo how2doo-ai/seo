@@ -15,6 +15,10 @@
  *      as the config file when it actually defines GSC_* vars, and otherwise
  *      merged underneath the chosen file as a lowest-priority overlay, so a
  *      project can keep its SEO vars in the .env it already has.
+ *   6. ~/.config/seo-agent/.env        — user-global overlay, lowest priority
+ *      of all: account-wide secrets shared by every project on this machine
+ *      (DataForSEO credentials, a canonical key path) live here ONCE instead
+ *      of being copy-pasted into each repo. Never holds per-site vars.
  *
  * A service-account JSON key referenced by GSC_SERVICE_ACCOUNT_KEY_FILE is
  * resolved relative to the chosen env file's directory, so the key sits next
@@ -22,6 +26,7 @@
  */
 
 import { existsSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, isAbsolute, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -38,7 +43,13 @@ function candidatePaths(): string[] {
 
 const candidates = candidatePaths();
 
-/** The project's own root .env — lowest-priority source (see header). */
+/** User-global overlay for machine-wide secrets — lowest priority of all. */
+const GLOBAL_ENV = resolve(homedir(), ".config/seo-agent/.env");
+const globalEnvVars: Record<string, string> = existsSync(GLOBAL_ENV)
+  ? parseEnvFile(GLOBAL_ENV)
+  : {};
+
+/** The project's own root .env — second-lowest-priority source (see header). */
 const ROOT_ENV = resolve(process.cwd(), ".env");
 const rootEnvVars: Record<string, string> = existsSync(ROOT_ENV)
   ? parseEnvFile(ROOT_ENV)
@@ -90,9 +101,15 @@ function loadEnv(): Record<string, string> {
     );
     process.exit(1);
   }
-  // Priority: process env (CI/shell secrets) > chosen env file > root .env overlay.
+  // Priority: process env (CI/shell secrets) > chosen env file > root .env
+  // overlay > user-global ~/.config/seo-agent/.env.
   const overlay = ENV_PATH === ROOT_ENV ? {} : rootEnvVars;
-  return { ...overlay, ...parseEnvFile(ENV_PATH), ...stringEnv(process.env) };
+  return {
+    ...globalEnvVars,
+    ...overlay,
+    ...parseEnvFile(ENV_PATH),
+    ...stringEnv(process.env),
+  };
 }
 
 /** Narrow process.env (string | undefined) to a plain string record. */

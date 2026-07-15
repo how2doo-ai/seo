@@ -163,12 +163,22 @@ cp <key>.json ~/.config/seo-agent/service-account.json
 chmod 600 ~/.config/seo-agent/service-account.json
 ```
 
-then in each project (absolute paths are used as-is, not copied):
+Machine-wide values (the key path, DataForSEO credentials — anything that is
+the same for every project) go in the **user-global env**,
+`~/.config/seo-agent/.env` (`chmod 600` it), which every project inherits as
+the lowest-priority layer:
 
 ```bash
-sh <plugin>/scripts/init.sh \
-  GSC_SERVICE_ACCOUNT_KEY_FILE=$HOME/.config/seo-agent/service-account.json ...
+# ~/.config/seo-agent/.env
+GSC_SERVICE_ACCOUNT_KEY_FILE=/Users/you/.config/seo-agent/service-account.json
+DATAFORSEO_LOGIN=you@example.com
+DATAFORSEO_PASSWORD=api-password
 ```
+
+Per-project `.claude/seo/.env` then holds only what is actually per-site
+(`GSC_SITE_URL`, `GA4_PROPERTY_ID`, niche tuning) and can override any global
+value. Full priority: shell/CI env > `.claude/seo/.env` > project root `.env` >
+`~/.config/seo-agent/.env`.
 
 Teams: don't share one key file between people. A service account can hold
 multiple keys — each person creates their own (step 1's `keys create`), so one

@@ -45,8 +45,10 @@ sh scripts/init.sh \
 npx tsx scripts/ping.ts    # verify all configured integrations
 ```
 
-Prefer one file? The loader also honors SEO vars in your project's root `.env`
-(lowest priority — a dedicated `.claude/seo/.env` wins).
+Prefer one file? The loader also honors SEO vars in your project's root `.env`,
+and machine-wide secrets (DataForSEO creds, the key path) can live once in the
+user-global `~/.config/seo-agent/.env` instead of being copied into every repo.
+Priority: shell env > `.claude/seo/.env` > root `.env` > global.
 
 In Claude Code, run `/seo-setup` to be walked through it, and `/seo-analytics`
 for a quick traffic + search snapshot. Or just ask the **seo** agent for keyword

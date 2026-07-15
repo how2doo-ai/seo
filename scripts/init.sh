@@ -69,11 +69,14 @@ if git -C "$root" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 # ── status: what still needs a human ────────────────────────────────────────
-# A var counts as set if it has a real (non-placeholder) value in .claude/seo/.env
-# or in the project root .env.
+# A var counts as set if it has a real (non-placeholder) value in
+# .claude/seo/.env, the project root .env, or the user-global
+# ~/.config/seo-agent/.env (same priority order as the loader).
+global_env="$HOME/.config/seo-agent/.env"
 val() {
   v="$(grep "^$1=" "$envfile" 2>/dev/null | tail -1 | cut -d= -f2-)"
   [ -z "$v" ] && [ -f "$root/.env" ] && v="$(grep "^$1=" "$root/.env" 2>/dev/null | tail -1 | cut -d= -f2-)"
+  [ -z "$v" ] && [ -f "$global_env" ] && v="$(grep "^$1=" "$global_env" 2>/dev/null | tail -1 | cut -d= -f2-)"
   printf '%s' "$v"
 }
 
