@@ -6,6 +6,7 @@
   "description": "GA4 + Google Search Console + DataForSEO analysis scripts for the seo-agent Claude Code plugin.",
   "scripts": {
     "ping": "tsx ping.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
