@@ -29,7 +29,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { basename, extname, resolve } from "node:path";
 import { parseArgs, printError } from "../lib/dataforseo.js";
 import { config, isStrongDomain } from "../lib/seo-config.js";
 import { fetchSeasonality, type Seasonality } from "./historical-volume.js";

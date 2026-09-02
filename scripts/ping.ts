@@ -80,7 +80,7 @@ async function pingGA4(): Promise<PingResult> {
       requestBody: {
         dateRanges: [{ startDate: "1daysAgo", endDate: "today" }],
         metrics: [{ name: "sessions" }],
-        limit: 1,
+        limit: "1",
       },
     });
     const sessions = res.data.totals?.[0]?.metricValues?.[0]?.value ?? "0";

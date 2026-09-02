@@ -115,7 +115,7 @@ async function runReport(
       dateRanges: [{ startDate, endDate }],
       dimensions: dimensions.map((name) => ({ name })),
       metrics: metrics.map((name) => ({ name })),
-      limit,
+      limit: String(limit),
       orderBys: orderBy
         ? [{ metric: { metricName: orderBy }, desc: true }]
         : undefined,
