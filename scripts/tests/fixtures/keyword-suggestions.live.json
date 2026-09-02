@@ -1,0 +1,173 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.1190 sec.",
+  "cost": 0.01392,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.1113 sec.",
+      "cost": 0.01392,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "dataforseo_labs",
+        "google",
+        "keyword_suggestions",
+        "live"
+      ],
+      "data": {
+        "api": "dataforseo_labs",
+        "function": "keyword_suggestions",
+        "se_type": "google",
+        "keyword": "айпи логгер",
+        "location_code": 2804,
+        "language_code": "ru",
+        "limit": 50,
+        "include_seed_keyword": true
+      },
+      "result": [
+        {
+          "se_type": "google",
+          "seed_keyword": "айпи логгер",
+          "seed_keyword_data": {
+            "se_type": "google",
+            "keyword": "айпи логгер",
+            "location_code": 2804,
+            "language_code": "ru",
+            "keyword_info": {
+              "se_type": "google",
+              "last_updated_time": "2026-08-27 00:08:03 +00:00",
+              "competition": 0,
+              "competition_level": "LOW",
+              "cpc": null,
+              "search_volume": 880,
+              "low_top_of_page_bid": null,
+              "high_top_of_page_bid": null
+            },
+            "keyword_properties": {
+              "se_type": "google",
+              "core_keyword": null,
+              "synonym_clustering_algorithm": "text_processing",
+              "keyword_difficulty": 0,
+              "detected_language": "ru",
+              "is_another_language": false,
+              "words_count": 2
+            },
+            "search_intent_info": {
+              "se_type": "google",
+              "main_intent": "navigational",
+              "foreign_intent": null,
+              "last_updated_time": "2026-05-05 03:02:19 +00:00"
+            }
+          },
+          "location_code": 2804,
+          "language_code": "ru",
+          "total_count": 16,
+          "items_count": 3,
+          "offset": 0,
+          "items": [
+            {
+              "se_type": "google",
+              "keyword": "айпи логгер",
+              "location_code": 2804,
+              "language_code": "ru",
+              "keyword_info": {
+                "se_type": "google",
+                "last_updated_time": "2026-08-27 00:08:03 +00:00",
+                "competition": 0,
+                "competition_level": "LOW",
+                "cpc": null,
+                "search_volume": 880,
+                "low_top_of_page_bid": null,
+                "high_top_of_page_bid": null
+              },
+              "keyword_properties": {
+                "se_type": "google",
+                "core_keyword": null,
+                "synonym_clustering_algorithm": "text_processing",
+                "keyword_difficulty": 0,
+                "detected_language": "ru",
+                "is_another_language": false,
+                "words_count": 2
+              },
+              "search_intent_info": {
+                "se_type": "google",
+                "main_intent": "navigational",
+                "foreign_intent": null,
+                "last_updated_time": "2026-05-05 03:02:19 +00:00"
+              }
+            },
+            {
+              "se_type": "google",
+              "keyword": "логгер айпи",
+              "location_code": 2804,
+              "language_code": "ru",
+              "keyword_info": {
+                "se_type": "google",
+                "last_updated_time": "2026-08-26 09:54:48 +00:00",
+                "competition": 0,
+                "competition_level": "LOW",
+                "cpc": null,
+                "search_volume": 10,
+                "low_top_of_page_bid": null,
+                "high_top_of_page_bid": null
+              },
+              "keyword_properties": {
+                "se_type": "google",
+                "core_keyword": "айпи логгер",
+                "synonym_clustering_algorithm": "text_processing",
+                "keyword_difficulty": 0,
+                "detected_language": "ru",
+                "is_another_language": false,
+                "words_count": 2
+              },
+              "search_intent_info": {
+                "se_type": "google",
+                "main_intent": "navigational",
+                "foreign_intent": null,
+                "last_updated_time": "2026-05-04 02:13:05 +00:00"
+              }
+            },
+            {
+              "se_type": "google",
+              "keyword": "айпи логгер ссылка",
+              "location_code": 2804,
+              "language_code": "ru",
+              "keyword_info": {
+                "se_type": "google",
+                "last_updated_time": "2026-08-27 03:34:47 +00:00",
+                "competition": 0,
+                "competition_level": "LOW",
+                "cpc": null,
+                "search_volume": 10,
+                "low_top_of_page_bid": null,
+                "high_top_of_page_bid": null
+              },
+              "keyword_properties": {
+                "se_type": "google",
+                "core_keyword": "ссылка айпи логгер",
+                "synonym_clustering_algorithm": "text_processing",
+                "keyword_difficulty": null,
+                "detected_language": "ru",
+                "is_another_language": false,
+                "words_count": 3
+              },
+              "search_intent_info": {
+                "se_type": "google",
+                "main_intent": "navigational",
+                "foreign_intent": null,
+                "last_updated_time": "2026-05-04 16:21:00 +00:00"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -7,6 +7,10 @@
  *   --suggestions      substring/phrase expansion via Labs keyword_suggestions,
  *                      which additionally returns search INTENT + difficulty
  *
+ * The two endpoints return DIFFERENT item shapes — see keyword-shapes.ts, which
+ * owns the types and the endpoint-aware normalizer. Do not read `keyword_info`
+ * off a discovery item here; go through keywordDataOf(items, mode).
+ *
  * Usage:
  *   npx tsx scripts/keyword-research.ts "astrology readings" --location 2840 --lang en --limit 30
  *   npx tsx scripts/keyword-research.ts "daily horoscope" --suggestions --limit 50
@@ -16,35 +20,10 @@
  */
 
 import { dataforseoPost, tasks, parseArgs, printJson, printError } from "../lib/dataforseo.js";
+import { keywordDataOf, toRow } from "./keyword-shapes.js";
+import type { DiscoveryMode, DiscoveryResult, OverviewResult } from "./keyword-shapes.js";
 
-interface KeywordInfo {
-  search_volume: number | null;
-  competition_level: string | null;
-  cpc: number | null;
-}
-interface KeywordData {
-  keyword: string;
-  keyword_info: KeywordInfo | null;
-  keyword_properties: { keyword_difficulty: number | null } | null;
-  search_intent_info: { main_intent: string | null } | null;
-}
-
-interface SeedResult {
-  seed_keyword: string;
-  seed_keyword_data: KeywordData | null;
-  items_count: number;
-  items: KeywordData[] | null;
-}
-
-interface OverviewItem {
-  keyword: string;
-  keyword_info: KeywordInfo | null;
-  keyword_properties: { keyword_difficulty: number | null } | null;
-  search_intent_info: { main_intent: string | null } | null;
-}
-interface OverviewResult {
-  items: OverviewItem[] | null;
-}
+export * from "./keyword-shapes.js";
 
 export interface KeywordOverview {
   volume: number | null;
@@ -69,6 +48,9 @@ export async function fetchKeywordOverview(
     { keywords, location_code: opts.location, language_code: opts.lang },
   ]);
   for (const task of tasks(response)) {
+    // keyword_overview items are FLAT — no keyword_data wrapper. Verified
+    // against the endpoint's contract, not against a cached response: this
+    // set has never paid for a keyword_overview call.
     for (const item of task.result?.items ?? []) {
       out[(item.keyword ?? "").toLowerCase()] = {
         volume: item.keyword_info?.search_volume ?? null,
@@ -81,10 +63,13 @@ export async function fetchKeywordOverview(
 }
 
 // ---------------------------------------------------------------- CLI entry
-const invokedDirectly = process.argv[1]?.includes("keyword-research");
+// Anchored to the filename so importing this module (from a test, or from
+// score.ts) can never trip the CLI on a loose substring match.
+const invokedDirectly = /[/\\]keyword-research\.(ts|mts|js|mjs)$/.test(process.argv[1] ?? "");
 if (invokedDirectly) {
   const { positional: keywords, location, lang, limit } = parseArgs(process.argv.slice(2));
   const useSuggestions = process.argv.includes("--suggestions");
+  const mode: DiscoveryMode = useSuggestions ? "suggestions" : "related";
 
   if (keywords.length === 0) {
     printError(
@@ -102,7 +87,7 @@ if (invokedDirectly) {
       : { keyword, location_code: location, language_code: lang, limit, include_seed_keyword: true, depth: 2 },
   );
 
-  const response = await dataforseoPost<SeedResult>(endpoint, payload);
+  const response = await dataforseoPost<DiscoveryResult>(endpoint, payload);
 
   const output = tasks(response).map((task) => {
     if (!task.ok || !task.result) {
@@ -110,18 +95,12 @@ if (invokedDirectly) {
     }
     const result = task.result;
     const seed = result.seed_keyword_data;
-    const items = (result.items ?? []).map((item) => ({
-      keyword: item.keyword,
-      volume: item.keyword_info?.search_volume ?? 0,
-      competition: item.keyword_info?.competition_level ?? "N/A",
-      cpc: item.keyword_info?.cpc ?? 0,
-      difficulty: item.keyword_properties?.keyword_difficulty ?? null,
-      intent: item.search_intent_info?.main_intent ?? null,
-    }));
+    // `mode` — not the item's own shape — decides how items are read.
+    const items = keywordDataOf(result.items, mode).map(toRow);
     items.sort((a, b) => b.volume - a.volume);
 
     return {
-      mode: useSuggestions ? "suggestions" : "related",
+      mode,
       seed_keyword: result.seed_keyword,
       seed_volume: seed?.keyword_info?.search_volume ?? 0,
       seed_competition: seed?.keyword_info?.competition_level ?? "N/A",

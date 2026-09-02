@@ -1,0 +1,114 @@
+{
+  "version": "0.1.20260826",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.1086 sec.",
+  "cost": 0.01212,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.0725 sec.",
+      "cost": 0.01212,
+      "result_count": 1,
+      "path": [
+        "v3",
+        "dataforseo_labs",
+        "google",
+        "related_keywords",
+        "live"
+      ],
+      "data": {
+        "api": "dataforseo_labs",
+        "function": "related_keywords",
+        "se_type": "google",
+        "keyword": "узнать кто перешел по ссылке",
+        "location_code": 2804,
+        "language_code": "ru",
+        "limit": 50,
+        "include_seed_keyword": true,
+        "depth": 2
+      },
+      "result": [
+        {
+          "se_type": "google",
+          "seed_keyword": "узнать кто перешел по ссылке",
+          "seed_keyword_data": {
+            "se_type": "google",
+            "keyword": "узнать кто перешел по ссылке",
+            "location_code": 2804,
+            "language_code": "ru",
+            "keyword_info": {
+              "se_type": "google",
+              "last_updated_time": "2026-06-14 13:45:12 +00:00",
+              "competition": null,
+              "competition_level": null,
+              "cpc": null,
+              "search_volume": null,
+              "low_top_of_page_bid": null,
+              "high_top_of_page_bid": null
+            },
+            "keyword_properties": {
+              "se_type": "google",
+              "core_keyword": null,
+              "synonym_clustering_algorithm": null,
+              "keyword_difficulty": null,
+              "detected_language": "ru",
+              "is_another_language": false
+            },
+            "search_intent_info": {
+              "se_type": "google",
+              "main_intent": "informational",
+              "foreign_intent": null,
+              "last_updated_time": "2026-04-30 03:14:43 +00:00"
+            }
+          },
+          "location_code": 2804,
+          "language_code": "ru",
+          "total_count": 1,
+          "items_count": 1,
+          "items": [
+            {
+              "se_type": "google",
+              "keyword_data": {
+                "se_type": "google",
+                "keyword": "узнать кто перешел по ссылке",
+                "location_code": 2804,
+                "language_code": "ru",
+                "keyword_info": {
+                  "se_type": "google",
+                  "last_updated_time": "2026-06-14 13:45:12 +00:00",
+                  "competition": null,
+                  "competition_level": null,
+                  "cpc": null,
+                  "search_volume": null,
+                  "low_top_of_page_bid": null,
+                  "high_top_of_page_bid": null
+                },
+                "keyword_properties": {
+                  "se_type": "google",
+                  "core_keyword": null,
+                  "synonym_clustering_algorithm": null,
+                  "keyword_difficulty": null,
+                  "detected_language": "ru",
+                  "is_another_language": false
+                },
+                "search_intent_info": {
+                  "se_type": "google",
+                  "main_intent": "informational",
+                  "foreign_intent": null,
+                  "last_updated_time": "2026-04-30 03:14:43 +00:00"
+                }
+              },
+              "depth": 0,
+              "related_keywords": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
